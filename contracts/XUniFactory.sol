@@ -38,7 +38,6 @@ contract XUniFactory is ERC20 {
         
         // Lock the UNI in the contract
         uni.transferFrom(msg.sender, address(this), _amount);
-
     }
 
     // Unstake the UNIs and burn xUNIs. Claim back your UNIs.
