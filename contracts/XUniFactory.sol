@@ -21,22 +21,22 @@ contract XUniFactory is ERC20 {
         UNI = address(uni);
     }
 
-    // Stake the UNIs into this contract. Earn some shares.
+    // Stake the UNIs into this contract. Earn some UNIs.
     // Locks UNI and mints xUNI
-    function stake(uint256 _amount) public {
+    function stakeUNI(uint256 _amount) public {
         // Gets the amount of UNI locked in the contract
         uint256 totalUni = uni.balanceOf(address(this));
 
         // Gets the amount of xUNI in existence
-        uint256 totalShares = totalSupply();
+        uint256 totalXUni = totalSupply();
         
         // If no xUNI exists, mint it 1:1 to the amount put in
-        if (totalShares == 0 || totalUni == 0) {
+        if (totalXUni == 0 || totalUni == 0) {
             _mint(msg.sender, _amount);
         } 
         // Calculate and mint the amount of xUNI the UNI is worth. The ratio will change overtime, as xUNI is burned/minted and UNI deposited + gained from fees / withdrawn.
         else {
-            uint256 mintAmount = _amount.mul(totalShares).div(totalUni);
+            uint256 mintAmount = _amount.mul(totalXUni).div(totalUni);
             _mint(msg.sender, mintAmount);
         }
         
@@ -44,15 +44,39 @@ contract XUniFactory is ERC20 {
         uni.transferFrom(msg.sender, address(this), _amount);
     }
 
+    // Stake the UNI-LP tokens into this contract. Earn some UNIs (?)
+    // Locks UNI and mints xUNI
+    function stakeLP(IERC20 _lpToken, uint256 _amount) public {
+        // Gets the amount of UNI locked in the contract
+        uint256 totalLP = _lpToken.balanceOf(address(this));
+
+        // Gets the amount of xUNI in existence
+        uint256 totalXUni = totalSupply();
+        
+        // If no xUNI exists, mint it 1:1 to the amount put in
+        if (totalXUni == 0 || totalLP == 0) {
+            _mint(msg.sender, _amount);
+        } 
+        // Calculate and mint the amount of xUNI the UNI is worth. The ratio will change overtime, as xUNI is burned/minted and UNI deposited + gained from fees / withdrawn.
+        else {
+            uint256 mintAmount = _amount.mul(totalXUni).div(totalLP);
+            _mint(msg.sender, mintAmount);
+        }
+        
+        // Lock the UNI in the contract
+        _lpToken.transferFrom(msg.sender, address(this), _amount);
+    }
+
+
     // Unstake the UNIs and burn xUNIs. Claim back your UNIs.
     // Unlocks the staked + gained UNI and burns xUNI
-    function unStake(uint256 _share) public {
+    function unStake(uint256 _unStakedXUni) public {
         // Gets the amount of xUNI in existence
-        uint256 totalShares = totalSupply();
+        uint256 totalXUni = totalSupply();
 
         // Calculates the amount of UNI the xUNI is worth
-        uint256 redeemAmount = _share.mul(uni.balanceOf(address(this))).div(totalShares);
-        _burn(msg.sender, _share);
+        uint256 redeemAmount = _unStakedXUni.mul(uni.balanceOf(address(this))).div(totalXUni);
+        _burn(msg.sender, _unStakedXUni);
         uni.transfer(msg.sender, redeemAmount);
     }
 }

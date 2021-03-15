@@ -8,7 +8,7 @@ pragma experimental ABIEncoderV2;
  */
 contract GovernorAlphaWithXUni {
     /// @notice The name of this contract
-    string public constant name = "Uniswap Governor Alpha";
+    string public constant name = "Uniswap Governor Alpha with xUNI";
 
     /// @notice The number of votes in support of a proposal required in order for a quorum to be reached and for a vote to succeed
     function quorumVotes() public pure returns (uint) { return 40_000_000e18; } // 4% of Uni
