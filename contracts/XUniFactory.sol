@@ -10,11 +10,15 @@ import "@openzeppelin/contracts/math/SafeMath.sol";
 // This contract handles swapping to and from xUNI, UNISwap's staking token.
 contract XUniFactory is ERC20 {
     using SafeMath for uint256;
+
     IERC20 public uni;
+
+    address UNI;
 
     // Define the UNI token contract
     constructor(IERC20 _uni) public ERC20("xUNI Token", "xUNI") {
         uni = _uni;
+        UNI = address(uni);
     }
 
     // Stake the UNIs into this contract. Earn some shares.
