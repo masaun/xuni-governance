@@ -2,6 +2,9 @@
 const Web3 = require('web3');
 const web3 = new Web3(new Web3.providers.WebsocketProvider('ws://localhost:8545'))
 
+/// Openzeppelin test-helper
+const { time } = require('@openzeppelin/test-helpers');
+
 /// Artifact of smart contracts 
 const XUniFactory = artifacts.require("XUniFactory")
 const UniToken = artifacts.require("Uni")
@@ -14,8 +17,8 @@ const UniToken = artifacts.require("Uni")
 contract("XUniFactory", function(accounts) {
     /// Acccounts
     let deployer = accounts[0]
-    let user1 = accounts[1]
-    let user2 = accounts[2]
+    let admin = accounts[1]
+    let user1 = accounts[2]
 
     /// Global contract instance
     let uniToken
@@ -27,16 +30,19 @@ contract("XUniFactory", function(accounts) {
 
     describe("Setup smart-contracts", () => {
         it("Deploy the UniToken contract instance", async () => {
+            // @param account The initial account to grant all the tokens
+            // @param minter_ The account with minting ability
+            // @param mintingAllowedAfter_ The timestamp after which minting may occur
             const account = deployer
-            const minter_ = user1
-            const mintingAllowedAfter_ = 1
-
+            const minter_ = admin
+            const mintingAllowedAfter_ = await time.latest() + 1  /// [Note]: Get the latest timestamp
+            
             uniToken = await UniToken.new(account, minter_, mintingAllowedAfter_, { from: deployer })
             UNI_TOKEN = uniToken.address
         })
 
         it("Deploy the XUniFactory contract instance", async () => {
-            xUniFactory = await XUniFactory.new(uniToken, { from: deployer })
+            xUniFactory = await XUniFactory.new(UNI_TOKEN, { from: deployer })
             XUNI_FACTORY = xUniFactory.address
         })
 
