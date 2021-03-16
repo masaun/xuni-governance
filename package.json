@@ -7,7 +7,7 @@
   },
   "scripts": {
     "test": "truffle test ./test/test-local/*",
-    "test:Something": "truffle test ./test/test-local/Something.test.js",
+    "test:XUniFactory": "truffle test ./test/test-local/XUniFactory.test.js",
     "compile:local": "truffle compile --reset --network local",
     "migrate:local": "truffle migrate --reset --network local",
     "start-blank": "rm -rf client/src && cp -rf barebones/src client/"
@@ -18,7 +18,8 @@
     "@openzeppelin/contracts": "^3.2.0",
     "@truffle/hdwallet-provider": "^1.2.0",
     "dotenv": "^8.2.0",
-    "eth-block-tracker": "^4.4.3"
+    "eth-block-tracker": "^4.4.3",
+    "web3": "^1.2.9"
   },
   "devDependencies": {}
 }

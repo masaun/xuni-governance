@@ -55,9 +55,9 @@ $ ganache-cli -d
 <br>
 
 - 2: Execute test of the smart-contracts (on the local)
-  - Test for the Something contract
-    `$ npm run test:Something`
-    ($ truffle test ./test/test-local/Something.test.js)
+  - Test for the XUniFactory contract
+    `$ npm run test:XUniFactory`
+    ($ truffle test ./test/test-local/XUniFactory.test.js)
 
 <br>
 
