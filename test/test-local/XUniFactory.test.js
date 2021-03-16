@@ -75,4 +75,13 @@ contract("XUniFactory", function(accounts) {
         })
     })
 
+    describe("Stake", () => {
+        it("Stake 20 UNI token into the xUniFactory contract and receive xUNI token", async () => {
+            const stakeAmount = web3.utils.toWei('20', 'ether')
+
+            txReceipt1 = await uniToken.approve(XUNI_FACTORY, stakeAmount, { from: user1 })
+            txReceipt2 = await xUniFactory.stakeUNI(stakeAmount, { from: user1 })
+        })
+    })
+
 })
