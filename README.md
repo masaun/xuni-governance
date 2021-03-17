@@ -65,6 +65,9 @@ $ ganache-cli -d
 ***
 
 ## 【References】
-- Uniswap V2
+- Uniswap V2 (Governance)
+  https://github.com/Uniswap/governance
+
 - SushiSwap
+  https://github.com/sushiswap/sushiswap
 
