@@ -90,11 +90,11 @@ contract("XUniFactory", function(accounts) {
 
             /// User3 transfer 10 UNIs into the XUniFactory contract. 
             /// [Note]: In case of this, User3 can not receive any xUNIs (shares). 
-            /// [Note]: In case of this, Shares in the xUniFactory contract are not counted.
+            /// [Note]: In case of this, Shares in the xUniFactory contract are counted. Therefore, total shares of the xUniFactory contract is 50 shares at this time. (TotalSupply of xUNIs is 50 xUNis)
             const stakeAmount3 = web3.utils.toWei('20', 'ether')            
             txReceipt5 = await uniToken.transfer(XUNI_FACTORY, stakeAmount3, { from: user3 })
 
-            /// User1 stake 10 more UNIs. He should receive 10*30/50 = 6 xUNIs. (6 shares)
+            /// User1 stake 10 more UNIs. User1 should receive 10*30/50 = 6 xUNIs. (6 shares)
             const stakeAmount4 = web3.utils.toWei('10', 'ether')
             txReceipt7 = await uniToken.approve(XUNI_FACTORY, stakeAmount4, { from: user1 })
             txReceipt8 = await xUniFactory.stakeUNI(stakeAmount4, { from: user1 })
@@ -103,7 +103,7 @@ contract("XUniFactory", function(accounts) {
 
     describe("Un-Stake xUNIs", () => {
         it("User2 un-stake 5 xUNI token. Then, user2 should receive UNI token", async () => {
-            // User2 un-stake 5 xUNI. He should receive 5*60/36 = 8 xUNIs (8 shares)
+            // User2 un-stake 5 xUNI. User2 should receive 5*60/36 = 8 xUNIs (8 shares)
             const unStakeAmount = web3.utils.toWei('5', 'ether')
             txReceipt = await xUniFactory.unStakeXUNI(unStakeAmount, { from: user2 })
         })
@@ -117,7 +117,7 @@ contract("XUniFactory", function(accounts) {
             return roundedAmount
         }
 
-        it("Each users balance finally", async () => {
+        it("Each users balance (UNI and xUNI) finally", async () => {
             const xUNIBalanceOfUser1 = await xUniFactory.balanceOf(user1)
             const xUNIBalanceOfUser2 = await xUniFactory.balanceOf(user2) 
             assert.equal(roundedAmount(xUNIBalanceOfUser1), "26", "Finally, xUNI Balance of user1 should be 26 xUNIs")
