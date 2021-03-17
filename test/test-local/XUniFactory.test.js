@@ -30,6 +30,13 @@ contract("XUniFactory", function(accounts) {
     let UNI_TOKEN
     let XUNI_FACTORY
 
+    /// Converter
+    function roundedAmount(weiAmount) {
+        const fromWeiAmount = String(web3.utils.fromWei(weiAmount, 'ether'))
+        const roundedAmount = Math.round(Number(fromWeiAmount))  /// Rounded
+        return roundedAmount
+    }
+
     describe("Setup smart-contracts", () => {
         it("Deploy the UniToken contract instance", async () => {
             const now = await time.latest()
@@ -77,23 +84,38 @@ contract("XUniFactory", function(accounts) {
     })
 
     describe("Stake UNIs", () => {
-        it("User1 stake 20 UNI token into the xUniFactory contract and receive xUNI token", async () => {
+        it("User1 stake 20 UNI token into the xUniFactory contract and receive 20 xUNIs. (20 shares)", async () => {
             /// User1 stake 20 UNIs and receive 20 xUNIs. (20 shares)
             const stakeAmount1 = web3.utils.toWei('20', 'ether')
             txReceipt1 = await uniToken.approve(XUNI_FACTORY, stakeAmount1, { from: user1 })
             txReceipt2 = await xUniFactory.stakeUNI(stakeAmount1, { from: user1 })
+        })
 
+        it("User2 stake 10 UNI token into the xUniFactory contract and receive 10 xUNIs. (10 shares)", async () => {
             /// User2 stake 10 UNIs and receive 10 xUNIs. (10 shares)
             const stakeAmount2 = web3.utils.toWei('10', 'ether')            
             txReceipt3 = await uniToken.approve(XUNI_FACTORY, stakeAmount2, { from: user2 })
             txReceipt4 = await xUniFactory.stakeUNI(stakeAmount2, { from: user2 })
+        })
+
+        it("User3 transfer 10 UNIs into the XUniFactory contract. (The xUniFactory contract receieve UNIs from external source)", async () => {
 
             /// User3 transfer 10 UNIs into the XUniFactory contract. (The xUniFactory contract receieve UNIs from external source)
             /// [Note]: In case of this, User3 can not receive any xUNIs (shares). 
             /// [Note]: In case of this, Shares in the xUniFactory contract are counted. Therefore, total shares of the xUniFactory contract is 50 shares at this time. (TotalSupply of xUNIs is 50 xUNis)
             const stakeAmount3 = web3.utils.toWei('20', 'ether')            
             txReceipt5 = await uniToken.transfer(XUNI_FACTORY, stakeAmount3, { from: user3 })
+        })
 
+        it("UNI Balance of the XUniFactory contract should be 50 UNIs. xUNI Balance of the XUniFactory contract should be 0 xUNIs", async () => {
+            /// Check balance of the XUniFactory contract at this time
+            const uniBalanceOfXUniFactoryContract = await uniToken.balanceOf(XUNI_FACTORY)
+            const xUniBalanceOfXUniFactoryContract = await xUniFactory.balanceOf(XUNI_FACTORY)
+            console.log('=== UNI Balance of the XUniFactory contract ===:', roundedAmount(uniBalanceOfXUniFactoryContract))
+            console.log('=== xUNI Balance of the XUniFactory contract ===:', roundedAmount(xUniBalanceOfXUniFactoryContract))
+        })
+
+        it("User1 stake 10 more UNIs. User1 should receive 6 xUNIs. (6 shares)", async () => {
             /// User1 stake 10 more UNIs. User1 should receive 10*30/50 = 6 xUNIs. (6 shares)
             const stakeAmount4 = web3.utils.toWei('10', 'ether')
             txReceipt7 = await uniToken.approve(XUNI_FACTORY, stakeAmount4, { from: user1 })
@@ -102,6 +124,22 @@ contract("XUniFactory", function(accounts) {
     })
 
     describe("Un-Stake xUNIs", () => {
+        it("UNI Balance of the XUniFactory contract should be 60 UNIs. xUNI Balance of the XUniFactory contract should be 0 xUNIs", async () => {
+            /// Check balance of the XUniFactory contract at this time
+            const uniBalanceOfXUniFactoryContract = await uniToken.balanceOf(XUNI_FACTORY)
+            const xUniBalanceOfXUniFactoryContract = await xUniFactory.balanceOf(XUNI_FACTORY)
+            console.log('=== UNI Balance of the XUniFactory contract ===:', roundedAmount(uniBalanceOfXUniFactoryContract))
+            console.log('=== xUNI Balance of the XUniFactory contract ===:', roundedAmount(xUniBalanceOfXUniFactoryContract))
+        })
+
+        it("UNI Balance of user2 should be 90 UNIs. xUNI Balance of user2 should be 10 xUNIs", async () => {
+            /// Check balance of the XUniFactory contract at this time
+            const uniBalanceOfUser2 = await uniToken.balanceOf(user2)
+            const xUNIBalanceOfUser2 = await xUniFactory.balanceOf(user2)
+            console.log('=== UNI Balance of user2 ===:', roundedAmount(uniBalanceOfUser2))
+            console.log('=== xUNI Balance of user2 ===:', roundedAmount(xUNIBalanceOfUser2))
+        })
+
         it("User2 un-stake 5 xUNI token. Then, user2 should receive UNI token", async () => {
             // User2 un-stake 5 xUNI. User2 should receive 5*60/36 = 8 xUNIs (8 shares)
             const unStakeAmount = web3.utils.toWei('5', 'ether')
@@ -110,13 +148,6 @@ contract("XUniFactory", function(accounts) {
     })
 
     describe("Each users balance (UNI and xUNI) finally", () => {
-        /// Converter
-        function roundedAmount(weiAmount) {
-            const fromWeiAmount = String(web3.utils.fromWei(weiAmount, 'ether'))
-            const roundedAmount = Math.round(Number(fromWeiAmount))  /// Rounded
-            return roundedAmount
-        }
-
         it("Each users balance (UNI and xUNI) finally", async () => {
             const xUNIBalanceOfUser1 = await xUniFactory.balanceOf(user1)
             const xUNIBalanceOfUser2 = await xUniFactory.balanceOf(user2) 
