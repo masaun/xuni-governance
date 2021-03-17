@@ -127,8 +127,8 @@ contract("XUniFactory", function(accounts) {
             const uniBalanceOfUser1 = await uniToken.balanceOf(user1)
             const uniBalanceOfUser2 = await uniToken.balanceOf(user2)
             assert.equal(roundedAmount(uniBalanceOfXUniFactoryContract), "52", "Finally, UNI Balance of the XUniFactory contract should be 52 UNIs")
-            assert.equal(roundedAmount(uniBalanceOfUser1), "70", "Finally, UNI Balance of the XUniFactory contract should be 70 UNIs")
-            assert.equal(roundedAmount(uniBalanceOfUser2), "98", "Finally, UNI Balance of the XUniFactory contract should be 98 UNIs")
+            assert.equal(roundedAmount(uniBalanceOfUser1), "70", "Finally, UNI Balance of user1 should be 70 UNIs")
+            assert.equal(roundedAmount(uniBalanceOfUser2), "98", "Finally, UNI Balance of user2 should be 98 UNIs")
         })
     })
 
