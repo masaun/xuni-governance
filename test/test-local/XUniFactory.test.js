@@ -59,19 +59,20 @@ contract("XUniFactory", function(accounts) {
 
     describe("Preparation", () => {
         it("Mint 100 UNI token to 3 users", async () => {
-            const mintingAllowedAfter = await uniToken.mintingAllowedAfter()
-            console.log('=== mintingAllowedAfter ===', String(mintingAllowedAfter))
-
             const mintAmount = web3.utils.toWei('100', 'ether')
 
-            await time.increaseTo(Number(mintingAllowedAfter) + 600)         
+            /// [Note]: Every time UNI is minted, value of "mintingAllowedAfter" is updated.
+            const mintingAllowedAfter1 = await uniToken.mintingAllowedAfter()
+            await time.increaseTo(Number(mintingAllowedAfter1) + 600)         
             txReceipt1 = await uniToken.mint(user1, mintAmount, { from: minter })
 
-            // await time.increaseTo(Number(mintingAllowedAfter) + 1200)     
-            // txReceipt2 = await uniToken.mint(user2, mintAmount, { from: minter })
+            const mintingAllowedAfter2 = await uniToken.mintingAllowedAfter()
+            await time.increaseTo(Number(mintingAllowedAfter2) + 600)     
+            txReceipt2 = await uniToken.mint(user2, mintAmount, { from: minter })
 
-            // await time.increaseTo(Number(mintingAllowedAfter) + 1800)
-            // txReceipt3 = await uniToken.mint(user3, mintAmount, { from: minter })
+            const mintingAllowedAfter3 = await uniToken.mintingAllowedAfter()
+            await time.increaseTo(Number(mintingAllowedAfter3) + 1800)
+            txReceipt3 = await uniToken.mint(user3, mintAmount, { from: minter })
         })
     })
 
@@ -91,7 +92,4 @@ contract("XUniFactory", function(accounts) {
             txReceipt = await xUniFactory.unStake(unStakeAmount, { from: user1 })
         })
     })
-
-
-
 })
