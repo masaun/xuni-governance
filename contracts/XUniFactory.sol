@@ -1,14 +1,17 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.6.12;
 
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "@openzeppelin/contracts/math/SafeMath.sol";
+import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import { ERC20 } from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import { SafeMath } from "@openzeppelin/contracts/math/SafeMath.sol";
+
+import { XUniFactoryData } from "./xuni-factory/XUniFactoryData.sol";
+
 
 // XUniFactory is the coolest bar in town. You come in with some UNI, and leave with more! The longer you stay, the more UNI you get.
 //
 // This contract handles swapping to and from xUNI, UNISwap's staking token.
-contract XUniFactory is ERC20 {
+contract XUniFactory is ERC20, XUniFactoryData {
     using SafeMath for uint256;
 
     IERC20 public uni;
@@ -47,24 +50,7 @@ contract XUniFactory is ERC20 {
     // Stake the UNI-LP tokens into this contract. Earn some UNIs (?)
     // Locks UNI and mints xUNI
     function stakeLP(IERC20 _lpToken, uint256 _amount) public {
-        // Gets the amount of UNI locked in the contract
-        uint256 totalLP = _lpToken.balanceOf(address(this));
-
-        // Gets the amount of xUNI in existence
-        uint256 totalXUni = totalSupply();
-        
-        // If no xUNI exists, mint it 1:1 to the amount put in
-        if (totalXUni == 0 || totalLP == 0) {
-            _mint(msg.sender, _amount);
-        } 
-        // Calculate and mint the amount of xUNI the UNI is worth. The ratio will change overtime, as xUNI is burned/minted and UNI deposited + gained from fees / withdrawn.
-        else {
-            uint256 mintAmount = _amount.mul(totalXUni).div(totalLP);
-            _mint(msg.sender, mintAmount);
-        }
-        
-        // Lock the UNI in the contract
-        _lpToken.transferFrom(msg.sender, address(this), _amount);
+        /// [In progress]
     }
 
 

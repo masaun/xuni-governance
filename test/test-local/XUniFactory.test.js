@@ -60,7 +60,7 @@ contract("XUniFactory", function(accounts) {
 
         it("[Log]: Deployed-contracts addresses", async () => {
             console.log("\n=== UNI_TOKEN ===", UNI_TOKEN)
-            console.log("\n=== XUNI_FACTORY (xUNI) ===", XUNI_FACTORY)
+            console.log("=== XUNI_FACTORY (xUNI) ===", XUNI_FACTORY)
         })
     })
 
