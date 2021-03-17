@@ -8,9 +8,9 @@ import { XUniFactory } from "./XUniFactory.sol";
  * @notice - This is the GovernorAlpha contract with xxUni
  * @notice - This contract is following GovernorAlpha contract
  */
-contract GovernorAlphaWithXxUni {
+contract GovernorAlphaWithXUni {
     /// @notice The name of this contract
-    string public constant name = "xUniswap Governor Alpha with xxUni";
+    string public constant name = "Uniswap Governor Alpha with xUni";
 
     /// @notice The number of votes in support of a proposal required in order for a quorum to be reached and for a vote to succeed
     function quorumVotes() public pure returns (uint) { return 40_000_000e18; } // 4% of xUni

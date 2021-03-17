@@ -8,6 +8,7 @@
   "scripts": {
     "test": "truffle test ./test/test-local/*",
     "test:XUniFactory": "truffle test ./test/test-local/XUniFactory.test.js",
+    "test:GovernorAlphaWithXUni": "truffle test ./test/test-local/GovernorAlphaWithXUni.test.js",
     "compile:local": "truffle compile --reset --network local",
     "migrate:local": "truffle migrate --reset --network local",
     "start-blank": "rm -rf client/src && cp -rf barebones/src client/"

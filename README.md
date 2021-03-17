@@ -59,8 +59,11 @@ $ ganache-cli -d
     `$ npm run test:XUniFactory`
     ($ truffle test ./test/test-local/XUniFactory.test.js)
 
-<br>
+  - Test for the GovernorAlphaWithXUni contract
+    `$ npm run test:GovernorAlphaWithXUni`
+    ($ truffle test ./test/test-local/GovernorAlphaWithXUni.test.js)
 
+<br>
 
 ***
 

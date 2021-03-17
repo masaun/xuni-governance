@@ -1,8 +1,6 @@
 pragma solidity 0.6.12;
 pragma experimental ABIEncoderV2;
 
-import { SafeMath } from "@openzeppelin/contracts/math/SafeMath.sol";
-
 
 contract XUniFactoryData {
     /// @notice A checkpoint for marking number of votes from a given block
