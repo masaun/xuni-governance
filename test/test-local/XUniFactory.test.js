@@ -88,7 +88,7 @@ contract("XUniFactory", function(accounts) {
             txReceipt3 = await uniToken.approve(XUNI_FACTORY, stakeAmount2, { from: user2 })
             txReceipt4 = await xUniFactory.stakeUNI(stakeAmount2, { from: user2 })
 
-            /// User3 transfer 10 UNIs into the XUniFactory contract. 
+            /// User3 transfer 10 UNIs into the XUniFactory contract. (The xUniFactory contract receieve UNIs from external source)
             /// [Note]: In case of this, User3 can not receive any xUNIs (shares). 
             /// [Note]: In case of this, Shares in the xUniFactory contract are counted. Therefore, total shares of the xUniFactory contract is 50 shares at this time. (TotalSupply of xUNIs is 50 xUNis)
             const stakeAmount3 = web3.utils.toWei('20', 'ether')            
