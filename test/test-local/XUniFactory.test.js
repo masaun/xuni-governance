@@ -78,25 +78,26 @@ contract("XUniFactory", function(accounts) {
 
     describe("Stake", () => {
         it("User1 stake 20 UNI token into the xUniFactory contract and receive xUNI token", async () => {
-            /// User1 stake 20 UNIs and gets 20 xUNIs. (20 shares)
+            /// User1 stake 20 UNIs and receive 20 xUNIs. (20 shares)
             const stakeAmount1 = web3.utils.toWei('20', 'ether')
             txReceipt1 = await uniToken.approve(XUNI_FACTORY, stakeAmount1, { from: user1 })
             txReceipt2 = await xUniFactory.stakeUNI(stakeAmount1, { from: user1 })
 
-            /// User2 stake 10 UNIs and gets 10 xUNIs. (10 shares)
+            /// User2 stake 10 UNIs and receive 10 xUNIs. (10 shares)
             const stakeAmount2 = web3.utils.toWei('10', 'ether')            
             txReceipt3 = await uniToken.approve(XUNI_FACTORY, stakeAmount2, { from: user2 })
             txReceipt4 = await xUniFactory.stakeUNI(stakeAmount2, { from: user2 })
 
-            /// User3 stake 10 UNIs and gets 20 xUNIs. (20 shares)
+            /// User3 transfer 10 UNIs into the XUniFactory contract. 
+            /// [Note]: In case of this, User3 can not receive any xUNIs (shares). 
+            /// [Note]: In case of this, Shares in the xUniFactory contract are not counted.
             const stakeAmount3 = web3.utils.toWei('20', 'ether')            
-            txReceipt5 = await uniToken.approve(XUNI_FACTORY, stakeAmount3, { from: user3 })
-            txReceipt6 = await xUniFactory.stakeUNI(stakeAmount3, { from: user3 })
+            txReceipt5 = await uniToken.transfer(XUNI_FACTORY, stakeAmount3, { from: user3 })
 
             /// User1 stake 10 more UNIs. He should receive 10*30/50 = 6 xUNIs. (6 shares)
             const stakeAmount4 = web3.utils.toWei('10', 'ether')
-            txReceipt1 = await uniToken.approve(XUNI_FACTORY, stakeAmount4, { from: user1 })
-            txReceipt2 = await xUniFactory.stakeUNI(stakeAmount4, { from: user1 })
+            txReceipt7 = await uniToken.approve(XUNI_FACTORY, stakeAmount4, { from: user1 })
+            txReceipt8 = await xUniFactory.stakeUNI(stakeAmount4, { from: user1 })
         })
     })
 
@@ -110,22 +111,24 @@ contract("XUniFactory", function(accounts) {
 
     describe("Each users balance finally", () => {
         /// Converter
-        function fromWei(weiAmount) {
-            return String(web3.utils.fromWei(weiAmount, 'ether'))
+        function roundedAmount(weiAmount) {
+            const fromWeiAmount = String(web3.utils.fromWei(weiAmount, 'ether'))
+            const roundedAmount = Math.round(Number(fromWeiAmount))  /// Rounded
+            return roundedAmount
         }
 
         it("Each users balance finally", async () => {
             const xUNIBalanceOfUser1 = await xUniFactory.balanceOf(user1)
             const xUNIBalanceOfUser2 = await xUniFactory.balanceOf(user2) 
-            assert.equal(fromWei(xUNIBalanceOfUser1), "26", "Finally, xUNI Balance of user1 should be 26 xUNIs")
-            assert.equal(fromWei(xUNIBalanceOfUser2), "5", "Finally, xUNI Balance of user2 should be 5 xUNIs")
+            assert.equal(roundedAmount(xUNIBalanceOfUser1), "26", "Finally, xUNI Balance of user1 should be 26 xUNIs")
+            assert.equal(roundedAmount(xUNIBalanceOfUser2), "5", "Finally, xUNI Balance of user2 should be 5 xUNIs")
 
             const uniBalanceOfXUniFactoryContract = await uniToken.balanceOf(XUNI_FACTORY)
             const uniBalanceOfUser1 = await uniToken.balanceOf(user1)
             const uniBalanceOfUser2 = await uniToken.balanceOf(user2)
-            assert.equal(fromWei(uniBalanceOfXUniFactoryContract), "52", "Finally, UNI Balance of the XUniFactory contract should be 52 UNIs")
-            assert.equal(fromWei(uniBalanceOfUser1), "70", "Finally, UNI Balance of the XUniFactory contract should be 70 UNIs")
-            assert.equal(fromWei(uniBalanceOfUser2), "98", "Finally, UNI Balance of the XUniFactory contract should be 98 UNIs")
+            assert.equal(roundedAmount(uniBalanceOfXUniFactoryContract), "52", "Finally, UNI Balance of the XUniFactory contract should be 52 UNIs")
+            assert.equal(roundedAmount(uniBalanceOfUser1), "70", "Finally, UNI Balance of the XUniFactory contract should be 70 UNIs")
+            assert.equal(roundedAmount(uniBalanceOfUser2), "98", "Finally, UNI Balance of the XUniFactory contract should be 98 UNIs")
         })
     })
 
