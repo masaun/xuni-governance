@@ -76,7 +76,7 @@ contract("XUniFactory", function(accounts) {
         })
     })
 
-    describe("Stake", () => {
+    describe("Stake UNIs", () => {
         it("User1 stake 20 UNI token into the xUniFactory contract and receive xUNI token", async () => {
             /// User1 stake 20 UNIs and receive 20 xUNIs. (20 shares)
             const stakeAmount1 = web3.utils.toWei('20', 'ether')
@@ -101,7 +101,7 @@ contract("XUniFactory", function(accounts) {
         })
     })
 
-    describe("Un-Stake", () => {
+    describe("Un-Stake xUNIs", () => {
         it("User2 un-stake 5 xUNI token. Then, user2 should receive UNI token", async () => {
             // User2 un-stake 5 xUNI. He should receive 5*60/36 = 8 xUNIs (8 shares)
             const unStakeAmount = web3.utils.toWei('5', 'ether')
@@ -109,7 +109,7 @@ contract("XUniFactory", function(accounts) {
         })
     })
 
-    describe("Each users balance finally", () => {
+    describe("Each users balance (UNI and xUNI) finally", () => {
         /// Converter
         function roundedAmount(weiAmount) {
             const fromWeiAmount = String(web3.utils.fromWei(weiAmount, 'ether'))
