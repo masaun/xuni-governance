@@ -71,25 +71,39 @@ contract("XUniFactory", function(accounts) {
             txReceipt2 = await uniToken.mint(user2, mintAmount, { from: minter })
 
             const mintingAllowedAfter3 = await uniToken.mintingAllowedAfter()
-            await time.increaseTo(Number(mintingAllowedAfter3) + 1800)
+            await time.increaseTo(Number(mintingAllowedAfter3) + 600)
             txReceipt3 = await uniToken.mint(user3, mintAmount, { from: minter })
         })
     })
 
     describe("Stake", () => {
         it("User1 stake 20 UNI token into the xUniFactory contract and receive xUNI token", async () => {
-            const stakeAmount = web3.utils.toWei('20', 'ether')
-            txReceipt1 = await uniToken.approve(XUNI_FACTORY, stakeAmount, { from: user1 })
+            /// User1 stake 20 UNIs and gets 20 shares.
+            const stakeAmount1 = web3.utils.toWei('20', 'ether')
+            txReceipt1 = await uniToken.approve(XUNI_FACTORY, stakeAmount1, { from: user1 })
+            txReceipt2 = await xUniFactory.stakeUNI(stakeAmount1, { from: user1 })
 
-            /// User1 stake and gets 20 shares.
-            txReceipt2 = await xUniFactory.stakeUNI(stakeAmount, { from: user1 })
+            /// User2 stake 10 UNIs and gets 10 shares.
+            const stakeAmount2 = web3.utils.toWei('10', 'ether')            
+            txReceipt3 = await uniToken.approve(XUNI_FACTORY, stakeAmount2, { from: user2 })
+            txReceipt4 = await xUniFactory.stakeUNI(stakeAmount2, { from: user2 })
+
+            /// User3 stake 10 UNIs and gets 20 shares.
+            const stakeAmount3 = web3.utils.toWei('20', 'ether')            
+            txReceipt5 = await uniToken.approve(XUNI_FACTORY, stakeAmount3, { from: user3 })
+            txReceipt6 = await xUniFactory.stakeUNI(stakeAmount3, { from: user3 })
+
+            /// User1 stake 10 more UNIs. He should receive 10*30/50 = 6 shares.
+            const stakeAmount4 = web3.utils.toWei('10', 'ether')
+            txReceipt1 = await uniToken.approve(XUNI_FACTORY, stakeAmount4, { from: user1 })
+            txReceipt2 = await xUniFactory.stakeUNI(stakeAmount4, { from: user1 })
         })
     })
 
     describe("Un-Stake", () => {
         it("User1 un-stake 5 xUNI token and receive UNI token", async () => {
             const unStakeAmount = web3.utils.toWei('5', 'ether')
-            txReceipt = await xUniFactory.unStake(unStakeAmount, { from: user1 })
+            txReceipt = await xUniFactory.unStakeXUNI(unStakeAmount, { from: user1 })
         })
     })
 })
