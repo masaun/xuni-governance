@@ -8,9 +8,9 @@ import { SafeMath } from "@openzeppelin/contracts/math/SafeMath.sol";
 import { XUniFactoryData } from "./xuni-factory/XUniFactoryData.sol";
 
 
-// XUniFactory is the coolest bar in town. You come in with some UNI, and leave with more! The longer you stay, the more UNI you get.
-//
-// This contract handles swapping to and from xUNI, UNISwap's staking token.
+/**
+ * @notice - XUniFactory is the smart contract that handle UNI tokens and xUNI tokens 
+ */
 contract XUniFactory is ERC20, XUniFactoryData {
     using SafeMath for uint256;
 
