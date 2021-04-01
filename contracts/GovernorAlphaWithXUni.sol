@@ -5,7 +5,7 @@ import { XUniFactory } from "./XUniFactory.sol";
 
 
 /**
- * @notice - This is the GovernorAlpha contract with xxUni
+ * @notice - This is the GovernorAlpha contract with xUNI
  * @notice - This contract is following GovernorAlpha contract
  */
 contract GovernorAlphaWithXUni {

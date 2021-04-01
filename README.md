@@ -9,7 +9,7 @@
 <br>
 
 - xUNI tokens are used for Uniswap's governance activities (e.g. voting) instead of UNI tokens
-  (This specification has not been implemented in this repo yet)
+  (Note: This specification has not been implemented in this repo yet)
 
 
 &nbsp;
