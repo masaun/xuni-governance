@@ -81,3 +81,5 @@ $ ganache-cli -d
 - SushiSwap
   https://github.com/sushiswap/sushiswap
 
+- GR9 Prize (UNI Grants Program - Innovation and Focus Area Bounties)
+  https://gitcoin.co/issue/unigrants/ugp-hacks/1/100025056
