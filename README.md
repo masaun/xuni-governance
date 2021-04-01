@@ -4,7 +4,7 @@
 ## 【Introduction of the xUNI Governance🦄】
 - This is a smart contract to incentivize UNI holders to participate Uniswap's governance activities (e.g. voting) by which:
   - allow UNI token holders to stake their UNI tokens and receive xUNI tokens in return.
-  - and then they can stake it in the xUNI token pool.
+  - and then they can stake it in the xUNI token pool. (By doing this process, staker earn some interest)
 
 <br>
 
