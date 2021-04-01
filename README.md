@@ -1,8 +1,15 @@
-# Governance by UNI and UNI-LP token holders
+# xUNI Governance
 
 ***
-## 【Introduction of the Governance by UNI and UNI-LP token holders🦄】
-- This is a smart contract that: 
+## 【Introduction of the xUNI Governance🦄】
+- This is a smart contract to incentivize UNI holders to participate Uniswap's governance activities (e.g. voting) by which:
+  - allow UNI token holders to stake their UNI tokens and receive xUNI tokens in return.
+  - and then they can stake it in the xUNI token pool. (By doing this process, staker earn some interest)
+
+<br>
+
+- xUNI tokens are used for Uniswap's governance activities (e.g. voting) instead of UNI tokens
+  (This specification has not been implemented in this repo yet)
 
 
 &nbsp;
@@ -54,14 +61,14 @@ $ ganache-cli -d
 
 <br>
 
-- 2: Execute test of the smart-contracts (on the local)
-  - Test for the XUniFactory contract
-    `$ npm run test:XUniFactory`
-    ($ truffle test ./test/test-local/XUniFactory.test.js)
+- 2: Execute test of the smart-contracts (on the local)  
+  - Test for the XUniFactory contract  
+    `$ npm run test:XUniFactory`  
+    ($ truffle test ./test/test-local/XUniFactory.test.js)     
 
-  - Test for the GovernorAlphaWithXUni contract
-    `$ npm run test:GovernorAlphaWithXUni`
-    ($ truffle test ./test/test-local/GovernorAlphaWithXUni.test.js)
+  - Test for the GovernorAlphaWithXUni contract   
+    `$ npm run test:GovernorAlphaWithXUni`    
+    ($ truffle test ./test/test-local/GovernorAlphaWithXUni.test.js)  
 
 <br>
 
