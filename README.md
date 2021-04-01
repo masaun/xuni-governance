@@ -18,6 +18,7 @@
 
 ## 【Workflow】
 - Diagram of workflow  
+![【Diagram】xUNI Governance](https://user-images.githubusercontent.com/19357502/113312465-484d8b00-9345-11eb-8bba-3099325287c1.jpg)
 
 &nbsp;
 
@@ -52,7 +53,7 @@ $ npm run migrate:local
 
 <br>
 
-### ③ Test (Mainnet-fork approach)
+### ③ Test
 - 1: Start ganache-cli
 ```
 $ ganache-cli -d
